@@ -329,7 +329,8 @@ In this exercise, you'll perform the following tasks:
 
     The App.config file should now look similar this:
 
-    ```XML<?xml version="1.0" encoding="utf-8" ?>
+    ```XML
+    <?xml version="1.0" encoding="utf-8" ?>
     <configuration>
         <appSettings>
             <add key="ConnectionString0" value="Server=adventureworks101.postgres.database.azure.com;Database=azureadventureworks;Port=5432;User Id=azureuser@adventureworks101;Password=Pa55w.rd;Ssl Mode=Require;" />

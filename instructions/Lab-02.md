@@ -104,7 +104,7 @@ In this exercise, you'll perform the following tasks:
 
     The app should generate the following output:
 
-    ```text
+    ```bash
     Querying AdventureWorks database
     SELECT COUNT(*) FROM product
     504
@@ -153,7 +153,7 @@ Now that you have an idea of the data in the adventureworks database, you can mi
 
 1. Create the target database on the Azure virtual machine:
 
-    ```azurecli
+    ```sql
     create database adventureworks;
     ```
 
@@ -283,7 +283,7 @@ In this exercise, you'll perform the following tasks:
 
     If the service is running, you should see messages similar to the following:
 
-    ```text
+    ```bash
          mysql.service - MySQL Community Server
            Loaded: loaded (/lib/systemd/system/mysql.service; enabled; vendor preset: enabled)
            Active: active (running) since Mon 2019-09-02 14:45:42 UTC; 21h ago
@@ -321,6 +321,7 @@ In this exercise, you'll perform the following tasks:
     ```bash
     scp azureuser@nn.nn.nn.nn:~/adventureworks_mysql_schema.sql adventureworks_mysql_schema.sql
     ```
+
 ### Task 2. Create the Azure Database for MySQL server and database
 
 1. Switch to the Azure portal.
@@ -360,7 +361,7 @@ In this exercise, you'll perform the following tasks:
 
     If the database is created successfully, you should see a message similar to the following:
 
-    ```text
+    ```json
     {
           "charset": "latin1",
           "collation": "latin1_swedish_ci",

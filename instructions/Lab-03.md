@@ -185,7 +185,7 @@ Now that you have an idea of the data in the adventureworks database, you can mi
 1. Enter the following details, and then select **Save**:
 
     | Property  | Value  |
-    |---|---|
+    | --- | --- |
     | Host name/address | *[nn.nn.nn.nn]* |
     | Port | 5432 |
     | Maintenance database | postgres |
@@ -392,7 +392,7 @@ In this exercise, you'll perform the following tasks:
 
     If the database is created successfully, you should see a message similar to the following:
 
-    ```text
+    ```json
     {
       "charset": "UTF8",
       "collation": "English_United States.1252",
@@ -473,7 +473,7 @@ In this exercise, you'll perform the following tasks:
 
 1. After you have removed any remaining foreign keys, execute the following SQL statement to display the triggers in the database:
 
-    ```bash
+    ```SQL
     SELECT trigger_name
     FROM information_schema.triggers;
     ```
