@@ -191,7 +191,7 @@ In this exercise, you'll perform the following tasks:
 1. Select the chart to open it in the **Metrics** pane.
 1. Allow the app to run for several minutes (the longer the better). As time passes, the metrics in the chart should resemble the pattern illustrated in the following image:
 
-    ![Image showing the metrics gathered while the sample app is running](Linked_Image_Files/Lab4-metrics-for-single-server.png)
+    ![Image showing the metrics gathered while the sample app is running](../Linked_Image_Files/Lab4-metrics-for-single-server.png)
 
     This chart highlights the following points:
 
@@ -202,7 +202,7 @@ In this exercise, you'll perform the following tasks:
   
     If you leave the application running long enough, you will see connections starting to fail, with the error messages shown in the following image.
 
-    ![Image showing the connection errors that can occur when the server has insufficient resources available](Linked_Image_Files/Lab4-connection-errors.png)
+    ![Image showing the connection errors that can occur when the server has insufficient resources available](../Linked_Image_Files/Lab4-connection-errors.png)
 
 1. In the Cloud Shell, press Enter to stop the application.
 
@@ -249,7 +249,7 @@ In this exercise, you'll perform the following tasks:
 
     Depending on how long you have let the application run, you will see a chart similar to that shown below. Query Store aggregates the statistics for queries every 15 minutes, so each bar shows the relative time consumed by each query in each 15 minute period:
 
-    ![Image showing the statistics for long running queries captured by using Query Store](Linked_Image_Files/Lab4-long-running-queries.png)
+    ![Image showing the statistics for long running queries captured by using Query Store](../Linked_Image_Files/Lab4-long-running-queries.png)
 
 1. Hover the mouse over each bar in turn to view the statistics for the queries in that time period. The three queries that the system is spending most of its time performing are:
 
@@ -271,7 +271,7 @@ In this exercise, you'll perform the following tasks:
     - **Client: ClientWrite**. This wait event occurs when the server is writing data (results) back to the client. It does **not** indicate waits incurred while writing to the database.
     - **Client: ClientRead**. This wait event occurs when the server is waiting to read data (query requests or other commands) from a client. It is **not** associated with time spent reading from the database.
   
-    ![Image showing the wait statistics captured by using Query Store](Linked_Image_Files/Lab4-wait-statistics.png)
+    ![Image showing the wait statistics captured by using Query Store](../Linked_Image_Files/Lab4-wait-statistics.png)
   
     > [!NOTE]
     > Read and writes to the database are indicated by **IO** events rather than **Client** events. The sample application does not incur any IO waits as all the data it requires is cached in memory after the first read. If the metrics showed that memory was running low, you would likely see IO wait events start to occur.
@@ -294,7 +294,7 @@ In this exercise, you'll perform the following tasks:
 1. When the first replica has been created (it will take several minutes), repeat the previous step and add another replica named **adventureworks[nnn]-replica2**.
 1. Wait until the status of both replicas changes from **Deploying** to **Available** before continuing.
 
-    ![Image showing the Replication page for Azure Database for PostgreSQL. Two replicas have been added](Linked_Image_Files/Lab4-replicas.png)
+    ![Image showing the Replication page for Azure Database for PostgreSQL. Two replicas have been added](../Linked_Image_Files/Lab4-replicas.png)
 
 ### Task 2: Configure the replicas to enable client access
 
@@ -363,7 +363,7 @@ In this exercise, you'll perform the following tasks:
 
     The example chart illustrates the metrics gathered for the application over a 30 minute period, from startup. The chart shows that CPU utilization was still high, but memory utilization was lower. Additionally, after approximately 25 minutes, the system had established connections for over 30 connections. This might not seem a favorable comparison to the previous configuration, which supported 70 connections after 45 minutes. However, the workload was now spread across three servers, which were all performing at the same level, and all 101 connections had been established. Furthermore, the system was able to carrying on running without reporting any connection failures.
 
-    ![Image showing the metrics for the Azure Database for PostgreSQL server while running the application, after replication was configured](Linked_Image_Files/Lab4-metrics-for-replicated-server.png)
+    ![Image showing the metrics for the Azure Database for PostgreSQL server while running the application, after replication was configured](../Linked_Image_Files/Lab4-metrics-for-replicated-server.png)
 
     You can address the issue of CPU utilization by scaling up to a higher pricing tier with more CPU cores. The example system used in this lab runs using the **Basic** pricing tier with 2 cores. Changing to the **General purpose** pricing tier will give you up to 64 cores.
 
