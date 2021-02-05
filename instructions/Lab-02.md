@@ -11,14 +11,13 @@ You'll also reconfigure and run a sample application that uses the database, to 
 After completing this lab, you will be able to:
 
 1. Perform an offline migration of an on-premises MySQL database to an Azure virtual machine.
-
 1. Perform an online migration of a MySQL database running on a virtual machine to Azure Database for MySQL.
 
 ## Scenario
 
 You work as a database developer for the AdventureWorks organization. AdventureWorks has been selling bicycles and bicycle parts directly to end-consumer and distributors for over a decade. Their systems store information in a database that currently runs using MySQL, located in their on-premises datacenter. As part of a hardware rationalization exercise, AdventureWorks want to move the database to Azure. You have been asked to perform this migration.
 
-Initially, you decide to quickly relocate the data to a MySQL database running on an Azure virtual machine. This is considered to be a low-risk approach as it requires few if any changes to the database. However, this approach does require that you continue to perform most of the day-to-day monitoring and administrative tasks associated with the database. You also need to consider how the customer base of AdventureWorks has changed. Initially AdventureWorks targeted customers in their local region, but now they expanded to be a world-wide operation. Customers can be located anywhere, and ensuring that customers querying the database are subject to minimal latency is a primary concern. You can implement MySQL replication to virtual machines located in other regions, but again this is an administrative overhead.
+Initially, you decide to relocate quickly the data to a MySQL database running on an Azure virtual machine. This is considered to be a low-risk approach as it requires few if any changes to the database. However, this approach does require that you continue to perform most of the day-to-day monitoring and administrative tasks associated with the database. You also need to consider how the customer base of AdventureWorks has changed. Initially AdventureWorks targeted customers in their local region, but now they expanded to be a world-wide operation. Customers can be located anywhere, and ensuring that customers querying the database are subject to minimal latency is a primary concern. You can implement MySQL replication to virtual machines located in other regions, but again this is an administrative overhead.
 
 Instead, once you have got the system running on a virtual machine, you will then consider a more long-term solution; you will migrate the database to Azure Database for MySQL. This PaaS strategy removes much of the work associated with maintaining the system. You can easily scale the system, and add read-only replicas to support customers anywhere in the world. Additionally Microsoft provide a guaranteed SLA for availability.
 
@@ -30,30 +29,29 @@ You have an on-premises environment with an existing MySQL database containing t
 
     This virtual machine simulates your on-premises environment. It is running a MySQL server that is hosting the AdventureWorks database that you need to migrate.
 
-2. Using a browser, sign in to the Azure portal.
-
-3. Open an Azure Cloud Shell window. Make sure that you are running the **Bash** shell.
-
-4. Clone the repository holding the scripts and sample databases if you haven't done this previously.
+1. Using a browser, sign in to the Azure portal.
+1. Open an Azure Cloud Shell window. Make sure that you are running the **Bash** shell.
+1. Clone the repository holding the scripts and sample databases if you haven't done this previously.
 
     ```bash
     git clone https://github.com/MicrosoftLearning/DP-070-Migrate-Open-Source-Workloads-to-Azure workshop 
     ```
 
-5. Move to the *migration_samples/setup* folder.
+1. Move to the *migration_samples/setup* folder.
 
     ```bash
     cd ~/workshop/migration_samples/setup
     ```
 
-6. Run the *create_mysql_vm.sh* script as follows. Specify the name of a resource group and a location for holding the virtual machine as parameters. The resource group will be created if it doesn't already exist. Specify a location near to you, such as *eastus* or *uksouth*:
+1. Run the *create_mysql_vm.sh* script as follows. Specify the name of a resource group and a location for holding the virtual machine as parameters. The resource group will be created if it doesn't already exist. Specify a location near to you, such as *eastus* or *uksouth*:
 
     ```bash
     bash create_mysql_vm.sh [resource group name] [location]
     ```
 
     The script will take approximately 10 minutes to run. It will generate plenty of output as it runs, finishing with the IP address of the new virtual machine, and the message **Setup Complete**. 
-7. Make a note of the IP address.
+
+1. Make a note of the IP address.
 
 > [!NOTE]
 > You will need this IP address for the exercise.
@@ -63,33 +61,26 @@ You have an on-premises environment with an existing MySQL database containing t
 In this exercise, you'll perform the following tasks:
 
 1. Review the on-premises database.
-2. Run a sample application that queries the database.
-3. Perform an offline migration of the database to the Azure virtual machine.
-4. Verify the database on the Azure virtual machine.
-5. Reconfigure and test the sample application against the database in the Azure virtual machine.
+1. Run a sample application that queries the database.
+1. Perform an offline migration of the database to the Azure virtual machine.
+1. Verify the database on the Azure virtual machine.
+1. Reconfigure and test the sample application against the database in the Azure virtual machine.
 
 ### Task 1: Review the on-premises database
 
-1. On the **LON-DEV-01** virtual machine running in the classroom environment, in the **Favorites** bar on the left-hand side of the screen, click **MySQLWorkbench**.
-
-1. In the **MySQLWorkbench** window, click **LON-DEV-01**, and click **OK**.
-
+1. On the **LON-DEV-01** virtual machine running in the classroom environment, in the **Favorites** bar on the left-hand side of the screen, select **MySQLWorkbench**.
+1. In the **MySQLWorkbench** window, select **LON-DEV-01**, and select **OK**.
 1. Expand **adventureworks**, and then expand **Tables**.
-
-1. Right-click the **contact** table, click **Select Rows - Limit 1000**, and then, in the **contact** query window, click **Limit to 1000 rows** and click **Don't Limit**.
-
-1. Click **Execute** to run the query. It should return 19972 rows.
-
-1. In the list of tables, right-click the **Employee** table, and click **Select rows**.
-
-1. Click **Execute** to run the query. It should return 290 rows.
-
+1. Right-click the **contact** table, select **Select Rows - Limit 1000**, and then, in the **contact** query window, select **Limit to 1000 rows** and select **Don't Limit**.
+1. Select **Execute** to run the query. It should return 19972 rows.
+1. In the list of tables, right-click the **Employee** table, and select **Select rows**.
+1. Select **Execute** to run the query. It should return 290 rows.
 1. Spend a couple of minutes browsing the data for the other tables in the various tables in the database.
 
 ### Task 2: Run a sample application that queries the database
 
-1. On the **LON-DEV-01** virtual machine, on the favorites bar, click **Terminal** to open a terminal window.
-
+1. On the **LON-DEV-01** virtual machine, on the favorites bar, select **Show Applications** and then type **term**.
+1. Select **Terminal** to open a terminal window.
 1. In the terminal window, download the sample code for the lab. If prompted, enter **Pa55w.rd** for the password:
 
    ```bash
@@ -113,7 +104,7 @@ In this exercise, you'll perform the following tasks:
 
     The app should generate the following output:
 
-    ```text
+    ```bash
     Querying AdventureWorks database
     SELECT COUNT(*) FROM product
     504
@@ -162,7 +153,7 @@ Now that you have an idea of the data in the adventureworks database, you can mi
 
 1. Create the target database on the Azure virtual machine:
 
-    ```azurecli
+    ```sql
     create database adventureworks;
     ```
 
@@ -178,7 +169,7 @@ Now that you have an idea of the data in the adventureworks database, you can mi
     exit
     ```
 
-1. Restore the backup into the new database with the mysql command:
+1. Restore the backup into the new database by running this mysql command in the LON-DEV-01 terminal:
 
     ```bash
     mysql -h [nn.nn.nn.nn] -u azureuser -pPa55w.rd adventureworks < aw_mysql_backup.sql
@@ -212,10 +203,10 @@ Now that you have an idea of the data in the adventureworks database, you can mi
 
 1. Close the *mysql* utility with the **quit** command.
 1. Switch to the **MySQL Workbench** tool.
-1. On the **Database** menu, click **Manage Connections**, and click **New**.
-1. Click the **Connection** tab.
-1. In **Connection name** type **MySQL on Azure**
-1. Enter the following details, and then click **Test connection**:
+1. On the **Database** menu, select **Manage Connections**, and select **New**.
+1. Select the **Connection** tab.
+1. In **Connection name** type **MySQL on Azure VM**
+1. Enter the following details:
 
     | Property  | Value  |
     |---|---|
@@ -224,15 +215,15 @@ Now that you have an idea of the data in the adventureworks database, you can mi
     | Username | azureuser |
     | Default Schema | adventureworks |
 
-1. At the password prompt, type **Pa55w.rd** and click **OK**.
-1. Click **OK** and click **Close**.
-1. On the **Database** menu, click **Connect to Database**, select **MySQL on Azure**, and then click **OK**
+1. Select **Test connection**.
+1. At the password prompt, type **Pa55w.rd** and select **OK**.
+1. Select **OK** and select **Close**.
+1. On the **Database** menu, select **Connect to Database**, select **MySQL on Azure VM**, and then select **OK**
 1. In **adventureworks** browse the tables in the database. The tables should be the same as those in the on-premises database.
 
 ### Task 5: Reconfigure and test the sample application against the database on the Azure virtual machine
 
 1. Return to the **terminal** window.
-
 1. Open the App.config file for the test application using the *nano* editor:
 
     ```bash
@@ -252,8 +243,7 @@ Now that you have an idea of the data in the adventureworks database, you can mi
 
     The application should now connect to the database running on the Azure virtual machine.
 
-1. To save the file and close the editor, press ESC, then press CTRL X. Save your changes when you are prompted, by pressing Enter.
-
+1. To save the file and close the editor, press ESC, then press CTRL X. Save your changes when you are prompted, by pressing Y and then Enter.
 1. Build and run the application:
 
     ```bash
@@ -269,19 +259,17 @@ Now that you have an idea of the data in the adventureworks database, you can mi
 In this exercise, you'll perform the following tasks:
 
 1. Configure the MySQL server running on the Azure virtual machine and export the schema.
-2. Create the Azure Database for MySQL server and database.
-3. Import the schema into the target database.
-4. Perform an online migration using the Database Migration Service
-5. Modify data, and cutover to the new database
-6. Verify the database in Azure Database for MySQL
-7. Reconfigure and test the sample application against the database in the Azure Database for MySQL.
+1. Create the Azure Database for MySQL server and database.
+1. Import the schema into the target database.
+1. Perform an online migration using the Database Migration Service.
+1. Modify data, and cutover to the new database.
+1. Verify the database in Azure Database for MySQL.
+1. Reconfigure and test the sample application against the database in the Azure Database for MySQL.
 
 ### Task 1: Configure the MySQL server running on the Azure virtual machine and export the schema
 
 1. Using a web browser, return to the Azure portal.
-
 1. Open an Azure Cloud Shell window. Make sure that you are running the **Bash** shell.
-
 1. Connect to the Azure virtual machine running the MySQL server. In the following command, replace *nn.nn.nn.nn* with the IP address of the virtual machine. Enter the password **Pa55w.rdDemo** when prompted:
 
     ```bash
@@ -296,7 +284,7 @@ In this exercise, you'll perform the following tasks:
 
     If the service is running, you should see messages similar to the following:
 
-    ```text
+    ```bash
          mysql.service - MySQL Community Server
            Loaded: loaded (/lib/systemd/system/mysql.service; enabled; vendor preset: enabled)
            Active: active (running) since Mon 2019-09-02 14:45:42 UTC; 21h ago
@@ -334,42 +322,37 @@ In this exercise, you'll perform the following tasks:
     ```bash
     scp azureuser@nn.nn.nn.nn:~/adventureworks_mysql_schema.sql adventureworks_mysql_schema.sql
     ```
+
 ### Task 2. Create the Azure Database for MySQL server and database
 
 1. Switch to the Azure portal.
-
-1. Click **+ Create a resource**.
-
+1. Select **+ Create a resource**.
 1. In the **Search the Marketplace** box, type **Azure Database for MySQL**, and press enter.
-
-1. On the **Azure Database for MySQL** page, click **Create**.
-
-1. On the **Create MySQL server** page, enter the following details, and then click **Review + create**:
+1. On the **Azure Database for MySQL** page, select **Create**.
+1. On the **Select Azure Database for MySQL deployment option** page, under **Single server** select **Create**.
+1. On the **Create MySQL server** page, enter the following details:
 
     | Property  | Value  |
     |---|---|
+    | Subscription | Your subscription |
     | Resource group | Use the same resource group that you specified when you created the Azure virtual machine earlier in the *Setup* task for this lab |
     | Server name | **adventureworks*nnn***, where *nnn* is a suffix of your choice to make the server name unique |
     | Data source | None |
+    | Location | Select your nearest location |
+    | Version | 5.7 |
+    | Compute + storage | Select **Configure server**, select the **Basic** pricing tier, and then select **OK** |
     | Admin username | awadmin |
     | Password | Pa55w.rdDemo |
     | Confirm password | Pa55w.rdDemo |
-    | Location | Select your nearest location |
-    | Version | 5.7 |
-    | Compute + storage | Click **Configure server**, select the **Basic** pricing tier, and then click **OK** |
 
-1. On the **Review + create** page, click **Create**. Wait for the service to be created before continuing.
-
-1. When the service has been created, go to the page for the service in the portal, and click **Connection security**.
-
-1. On the **Connection security page**, set **Allow access to Azure services** to **ON**.
-
+1. Select **Review + create**.
+1. On the **Review + create** page, select **Create**. Wait for the service to be created before continuing.
+1. When the service has been created, select **Go to resource**, and then under **Settings**, and select **Connection security**.
+1. On the **Connection security page**, set **Allow access to Azure services** to **Yes**.
 1. In the list of firewall rules, add a rule named **VM**, and set the **START IP ADDRESS** and **END IP ADDRESS** to the IP address of the virtual machine running the MySQL server.
-
-1. Click **Add client IP**, to enable the **LON-DEV-01** virtual machine acting as the on-premises server to connect to Azure Database for MySQL. You will need this access later, when running the reconfigured client application.
-
+1. Select **Add current client IP address**, to enable the **LON-DEV-01** virtual machine acting as the on-premises server to connect to Azure Database for MySQL. You will need this access later, when running the reconfigured client application.
+1. Under **SSL settings**, next to **Enforce SSL connection**, select **DISABLED**
 1. **Save**, and wait for the firewall rules to be updated.
-
 1. At the Cloud Shell prompt, run the following command to create a new database in your Azure Database for MySQL service. Replace *[nnn]* with the suffix you used when you created the Azure Database for MySQL service. Replace *[resource group]* with the name of the resource group you specified for the service:
 
     ```bash
@@ -381,7 +364,7 @@ In this exercise, you'll perform the following tasks:
 
     If the database is created successfully, you should see a message similar to the following:
 
-    ```text
+    ```json
     {
           "charset": "latin1",
           "collation": "latin1_swedish_ci",
@@ -394,12 +377,13 @@ In this exercise, you'll perform the following tasks:
 
 ### Task 3: Import the schema into the target database
 
-1. In the Cloud Shell, run the following command to connect to the azureadventureworks[nnn] server. Replace the two instances of *[nnn]* with the suffix for your service. Note that the username has the *@adventureworks[nnn]* suffix. At the password prompt, enter **Pa55w.rdDemo**.
+1. In the Cloud Shell, run the following command to connect to the azureadventureworks[nnn] server. Replace the two instances of *[nnn]* with the suffix for your service. Note that the username has the *@adventureworks[nnn]* suffix:
 
     ```bash
-    mysql -h adventureworks[nnn].MySQL.database.azure.com -u awadmin@adventureworks[nnn] -pPa55w.rdDemo
+    mysql -h adventureworks[nnn].MySQL.database.azure.com -u awadmin@adventureworks[nnn] -p
     ```
 
+1. At the **Enter password** prompt, enter **Pa55w.rdDemo**.
 1. Run the following commands to create a user named *azureuser* and set the password for this user to *Pa55w.rd*. The second statement gives the *azureuser* user the necessary privileges to create objects in the *azureadventureworks* database.
 
     ```SQL
@@ -414,7 +398,6 @@ In this exercise, you'll perform the following tasks:
     ```
 
 1. Close the *mysql* utility with the **quit** command.
-
 1. Import the **adventureworks** schema to your Azure Database for MySQL service. You are performing the import as *azureuser*, so enter the password **Pa55w.rd** when prompted.
 
     ```bash
@@ -424,37 +407,29 @@ In this exercise, you'll perform the following tasks:
 ### Task 4.  Perform an online migration using the Database Migration Service
 
 1. Switch back to the Azure portal.
-
-2. Click **All services**, click **Subscriptions**, and then click your subscription.
-
-3. On your subscription page, under **Settings**, click **Resource providers**.
-
-4. In the **Filter by name** box, type **DataMigration**, and then click **Microsoft.DataMigration**.
-
-5. If the **Microsoft.DataMigration** isn't registered, click **Register**, and wait for the **Status** to change to **Registered**. It might be necessary to click **Refresh** to see the status change.
-
-6. Click **Create a resource**, in the **Search the Marketplace** box type **Azure Database Migration Service**, and then press Enter.
-
-7. On the **Azure Database Migration Service** page, click **Create**.
-
-8. On the **Create Migration Service** page, enter the following details, and then click **Create**.
+1. In the menu on the left, select **Subscriptions**, and then select your subscription.
+1. On your subscription page, under **Settings**, select **Resource providers**.
+1. In the **Filter by name** box, type **DataMigration**, and then select **Microsoft.DataMigration**.
+1. If the **Microsoft.DataMigration** isn't registered, select **Register**, and wait for the **Status** to change to **Registered**. It might be necessary to select **Refresh** to see the status change.
+1. Select **Create a resource**, in the **Search the Marketplace** box type **Azure Database Migration Service**, and then press Enter.
+1. On the **Azure Database Migration Service** page, select **Create**.
+1. On the **Create Migration Service** page, enter the following details:
 
     | Property  | Value  |
     |---|---|
-    | Service name | adventureworks_migration_service |
     | Subscription | Select your own subscription |
     | Select a resource group | Specify the same resource group that you used for the Azure Database for MySQL service and the Azure virtual machine |
+    | Migration service name | adventureworks_migration_service |
     | Location | Select your nearest location |
-    | Virtual network | Select the **MySQLvnet/mysqlvmSubnet** virtual network. This network was created as part of the setup |
+    | Service mode | Azure |
     | Pricing tier | Premium, with 4 vCores |
 
-9. Wait while the Database Migration Service is created. This will take a few minutes.
-
-10. In the Azure portal, go to the page for your Database Migration Service.
-
-11. Click **New Migration Project**.
-
-12. On the **New migration project** page, enter the following details, and then click **Create and run activity**.
+1. Select **Next: Networking \>\>**.
+1. On the **Networking** page, select the **MySQLvnet/mysqlvmSubnet** virtual network. This network was created as part of the setup.
+1. Select **Review + create** and then select **Create**. Wait while the Database Migration Service is created. This will take a few minutes.
+1. In the Azure portal, go to the page for your Database Migration Service.
+1. Select **New Migration Project**.
+1. On the **New migration project** page, enter the following details:
 
     | Property  | Value  |
     |---|---|
@@ -463,7 +438,8 @@ In this exercise, you'll perform the following tasks:
     | Target Database for MySQL | Azure Database for MySQL |
     | Choose type of activity | Online data migration |
 
-13. When the **Migration Wizard** starts, on the **Add Source Details** page, enter the following details, and then click **Save**.
+1. Select **Create and run activity**.
+1. When the **Migration Wizard** starts, on the **Select source** page, enter the following details:
 
     | Property  | Value  |
     |---|---|
@@ -472,7 +448,8 @@ In this exercise, you'll perform the following tasks:
     | User Name | azureuser |
     | Password | Pa55w.rd |
 
-14. on the **Target details** page, enter the following details, and then click **Save**.
+1. Select **Next: Select target\>\>**.
+1. On the **Select target** page, enter the following details:
 
     | Property  | Value  |
     |---|---|
@@ -480,34 +457,26 @@ In this exercise, you'll perform the following tasks:
     | User Name | awadmin@adventureworks[nnn] |
     | Password | Pa55w.rdDemo |
 
-15. on the **Map to target databases** page, select the **adventureworks** database and map it to **adventureworks**. Click **Save**.
-
-16. On the **Migration settings** page, expand the **adventureworks** dropdown, expand the **Advanced online migration settings dropdown**, verify that **Maximum number of instances to load in parallel** is set to 5, and then click **Save**.
-
-17. On the **Migration summary** page, in the **Activity name** box type **AdventureWorks_Migration_Activity**, and then click **Run migration**.
-
-18. On the **AdventureWorks_Migration_Activity** page, click **Refresh** at 15 second intervals. You will see the status of the migration operation as it progresses. Wait until the **MIGRATION DETAILS** column changes to **Ready to cutover**.
-
+1. Select **Next: Select databases\>\>**.
+1. On the **Select databases** page, ensure that both the **Source Database** and the **Target Database** are set to **adventureworks** and then select **Next: Configure migration settings**.
+1. On the **Configure migration settings** page, select **Next: Summary\>\>**.
+1. On the **Migration summary** page, in the **Activity name** box type **AdventureWorks_Migration_Activity**, and then select **Start migration**.
+1. On the **AdventureWorks_Migration_Activity** page, select **Refresh** at 15 second intervals. You will see the status of the migration operation as it progresses. Wait until the **MIGRATION DETAILS** column changes to **Ready to cutover**.
 
 ### Task 5. Modify data, and cutover to the new database
 
 1. Return to the **AdventureWorks_Migration_Activity** page in the Azure portal.
-
-1. Click the **adventureworks** database.
-
+1. Select the **adventureworks** database.
 1. On the **adventureworks** page, verify that the status for all tables is marked as **COMPLETED**.
-
-1. Click **Incremental data sync**. Verify that the status for every table is marked as **Syncing**.
-
+1. Select **Incremental data sync**. Verify that the status for every table is marked as **Syncing**.
 1. Switch back to the Cloud Shell.
-
 1. Run the following command to connect to the **adventureworks** database running using MySQL on the virtual machine:
 
     ```bash
     mysql -h nn.nn.nn.nn -u azureuser -pPa55w.rd adventureworks
     ```
 
-1. Execute the following SQL statements to display, and then remove orders 43659, 43660, and 43661 from the database. NOte that the database implements a cascading delete on the *salesorderheader* table, which automatically deletes the corresponding rows from the *salesorderdetail* table.
+1. Execute the following SQL statements to display, and then remove orders 43659, 43660, and 43661 from the database. Note that the database implements a cascading delete on the *salesorderheader* table, which automatically deletes the corresponding rows from the *salesorderdetail* table.
 
     ```SQL
     SELECT * FROM salesorderheader WHERE salesorderid IN (43659, 43660, 43661);
@@ -516,15 +485,10 @@ In this exercise, you'll perform the following tasks:
     ```
 
 1. Close the *mysql* utility with the **quit** command.
-
-2. Return to the **adventureworks** page in the Azure portal, and then click **Refresh**. Scroll to the page for the *salesorderheader* and *salesorderdetail* tables. Verify that the *salesorderheader* table indicates that 3 rows have been deleted, and 29 rows have been removed from the **sales.salesorderdetail** table. If there are no updates applied, check that there are **Pending changes** for the database.
-
-1. Click **Start cutover**.
-
-1. On the **Complete cutover** page, select **Confirm**, and then click **Apply**. Wait until the status changes to **Completed**.
-
+1. Return to the **adventureworks** page in the Azure portal, and then select **Refresh**. Scroll to the page for the *salesorderheader* and *salesorderdetail* tables. Verify that the *salesorderheader* table indicates that 3 rows have been deleted, and 29 rows have been removed from the **sales.salesorderdetail** table. If there are no updates applied, check that there are **Pending changes** for the database.
+1. Select **Start cutover**.
+1. On the **Complete cutover** page, select **Confirm**, and then select **Apply**. Wait until the status changes to **Completed**.
 1. Return to the Cloud Shell.
-
 1. Run the following command to connect to the **azureadventureworks** database running using your Azure Database for MySQL service:
 
     ```bash
@@ -545,11 +509,9 @@ In this exercise, you'll perform the following tasks:
 ### Task 6: Verify the database in Azure Database for MySQL
 
 1. Return to the virtual machine acting as your on-premises computer
-
 1. Switch to the **MySQL Workbench** tool.
-1. On the **Database** menu, click **Connect to database**
-
-1. Enter the following details, and then click **OK**:
+1. On the **Database** menu, select **Connect to database**
+1. Enter the following details:
 
     | Property  | Value  |
     |---|---|
@@ -558,6 +520,7 @@ In this exercise, you'll perform the following tasks:
     | Username | awadmin@adventureworks*[nnn]* |
     | Password | Pa55w.rdDemo |
 
+1. Select **OK**.
 1. Expand **Databases**, expand **adventureworks**, and then browse the tables in the database. The tables should be the same as those in the on-premises database.
 
 ### Task 7: Reconfigure and test the sample application against the database in the Azure Database for MySQL
@@ -589,13 +552,12 @@ In this exercise, you'll perform the following tasks:
     The application should now connect to the database running on Azure Database for MySQL.
 
 1. Save the file and close the editor.
-
 1. Build and run the application:
 
     ```bash
     dotnet run
     ```
-    
+
     The app should display the same results as before, except that it is now retrieving the data from the database running in Azure.
 
    You have now migrated your database to Azure Database for MySQL, and reconfigured your application to use the new database.
