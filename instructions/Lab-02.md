@@ -124,6 +124,13 @@ In this exercise, you'll perform the following tasks:
     SELECT COUNT(*) FROM customer
     19185
     ```
+    
+    > **Tip**: If an error occures, try updating to .NET 3.1 by using the following commands:
+    > ```
+    > sudo apt update
+    > sudo apt install -y dotnet-sdk-3.1
+    > ```
+
 
 ### Task 3: Perform an offline migration of the database to the Azure virtual machine
 
