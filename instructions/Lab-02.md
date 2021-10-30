@@ -125,7 +125,7 @@ In this exercise, you'll perform the following tasks:
     19185
     ```
     
-    > **Tip**: If an error occures, try updating to .NET 3.1 by using the following commands:
+    > **Tip**: If an error occurs, try updating to .NET 3.1 by using the following commands:
     > ```
     > sudo apt update
     > sudo apt install -y dotnet-sdk-3.1
