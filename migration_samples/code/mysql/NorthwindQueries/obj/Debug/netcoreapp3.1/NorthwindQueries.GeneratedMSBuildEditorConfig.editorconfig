@@ -1,0 +1,3 @@
+is_global = true
+build_property.RootNamespace = NorthwindQueries
+build_property.ProjectDir = c:\learn-pr\DP-070-Migrate-Open-Source-Workloads-to-Azure\migration_samples\code\mysql\NorthwindQueries\
