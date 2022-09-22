@@ -356,40 +356,35 @@ In this exercise, you'll perform the following tasks:
 
 ## Task 2. Create the Azure Database for PostgreSQL server and database
 
-1. Switch to the Azure portal.
-1. Select **+ Create a resource**.
-1. In the **Search the Marketplace** box, type **Azure Database for PostgreSQL**, and press enter.
-1. On the **Azure Database for PostgreSQL** page, select **Create**.
-1. On the **Select Azure Database for PostgreSQL deployment option** page, in the **Single server** box, select **Create**.
-1. On the **Single server** page, enter the following details:
+1. Using a web browser, open a new tab and navigate to the [Azure portal](https://portal.azure.com/?azure-portal=true).
+1. In the search bar, type  **Azure Database for PostgreSQL flexible servers**.
+1. On the **Azure Database for PostgreSQL flexible servers** page, select **+ Create**.
+1. On the **Flexible server** page, enter the following details, and then select **Review + create**:
 
     | Property  | Value  |
     |---|---|
-    | Subscription | Select your subscription |
-    | Resource group | Use the same resource group that you specified when you created the Azure virtual machine earlier in the *Setup* task for this lab |
+    | Resource group | **migrate-postgresql** |
     | Server name | **adventureworks*nnn***, where *nnn* is a suffix of your choice to make the server name unique |
-    | Data source | None |
     | Location | Select your nearest location |
-    | Version | 10 |
+    | PostgreSQL version | **13** |
     | Compute + storage | Select **Configure server**, select the **Basic** pricing tier, and then select **OK** |
-    | Admin username | awadmin |
-    | Password | Pa55w.rdDemo |
-    | Confirm password | Pa55w.rdDemo |
+    | Admin username | **awadmin** |
+    | Password | **Pa55w.rdDemo** |
+    | Confirm password | **Pa55w.rdDemo** |
 
-1. Select **Review + create**.
 1. On the **Review + create** page, select **Create**. Wait for the service to be created before continuing.
-1. When the service has been created, go to the page for the service in the portal, and select **Connection security**.
+1. When the service has been created, select **Go to resource**.
+1. Select **Connection security**.
 1. On the **Connection security page**, set **Allow access to Azure services** to **Yes**.
 1. In the list of firewall rules, add a rule named **VM**, and set the **START IP ADDRESS** and **END IP ADDRESS** to the IP address of the virtual machine running the PostgreSQL server you created earlier.
-1. Select **Add current client IP address**, to enable the **LON-DEV-01** virtual machine acting as the on-premises server to connect to Azure Database for PostgreSQL. You will need this access later, when running the reconfigured client application.
+1. Select **Add current client IP address**, to enable your client machine to connect to the database.
 1. **Save**, and wait for the firewall rules to be updated.
 1. At the Cloud Shell prompt, run the following command to create a new database in your Azure Database for PostgreSQL service. Replace *[nnn]* with the suffix you used when you created the Azure Database for PostgreSQL service. Replace *[resource group]* with the name of the resource group you specified for the service:
 
     ```bash
-    az postgres db create \
+    az postgres flexible-server create \
       --name azureadventureworks \
-      --server-name adventureworks[nnn] \
-      --resource-group [resource group]
+      --resource-group migrate-postgresql
     ```
 
     If the database is created successfully, you should see a message similar to the following:
@@ -398,9 +393,8 @@ In this exercise, you'll perform the following tasks:
     {
       "charset": "UTF8",
       "collation": "English_United States.1252",
-      "id": "/subscriptions/nnnnnnnnnnnnnnnnnnnnnn/resourceGroups/nnnnnnnn/providers/Microsoft.DBforPostgreSQL/servers/adventureworksnnn/databases/azureadventureworks",
       "name": "azureadventureworks",
-      "resourceGroup": "nnnnnnnn",
+      "resourceGroup": "migrate-postgresql",
       "type": "Microsoft.DBforPostgreSQL/servers/databases"
     }
     ```
